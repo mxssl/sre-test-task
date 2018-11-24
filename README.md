@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/mxssl/revolut-sre-test-task)](https://goreportcard.com/report/github.com/mxssl/revolut-sre-test-task)
+
 # Revolut SRE test task
 
 ## Local setup with docker-compose
