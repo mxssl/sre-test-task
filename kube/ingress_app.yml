@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: revolute-sre-test-task
+spec:
+  tls:
+    - hosts:
+      - revolute-sre-test-task.domain.com
+      secretName: tls-certificate
+  rules:
+  - host: revolute-sre-test-task.domain.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app
+          servicePort: 80

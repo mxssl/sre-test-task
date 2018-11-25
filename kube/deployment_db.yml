@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: revolute-sre-test-task
+  labels:
+    app: db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: db
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: postgres
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: pg-data
+        env:
+          - name: POSTGRES_DB
+            value: app
+          - name: POSTGRES_USER
+            value: user
+          - name: POSTGRES_PASSWORD
+            value: password
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "0.5"
+          limits:
+            memory: "1024Mi"
+            cpu: "1"
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 9
+          timeoutSeconds: 2
+          periodSeconds: 2
+          failureThreshold: 2
+          successThreshold: 1
+        readinessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 3
+          timeoutSeconds: 2
+          periodSeconds: 2
+          failureThreshold: 2
+          successThreshold: 1
+        ports:
+          - containerPort: 5432
+      restartPolicy: Always
+      volumes:
+      - name: pg-data
+        gcePersistentDisk:
+          pdName: revolut-sre-test-task-disk
+          fsType: ext4
+  selector:
+    matchLabels:
+      app: db

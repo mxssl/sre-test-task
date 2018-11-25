@@ -2,7 +2,14 @@
 
 # Revolut SRE test task
 
+## Diagram
+
 [GCP diagram](https://github.com/mxssl/revolut-sre-test-task/blob/master/gcp_diagram.pdf)
+
+## Build&Deploy Scripts
+
+- Docker container build [build.sh]()
+- Deploy to Kubernetes [deploy.sh]()
 
 ## Local setup with docker-compose
 

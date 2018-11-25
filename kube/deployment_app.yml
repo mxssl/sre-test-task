@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: revolute-sre-test-task
+  labels:
+    app: app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      name: app
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: mxssl/revolute-sre-test-task
+        env:
+          - name: DB_HOST
+            value: db
+          - name: DB_PORT
+            value: 5432
+          - name: DB_USER
+            value: user
+          - name: DB_NAME
+            value: app
+          - name: DB_PASSWORD
+            value: password
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "0.5"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 9
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 2
+        ports:
+          - containerPort: 80
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: app
