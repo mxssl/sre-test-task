@@ -116,3 +116,38 @@ func TestHelloGetHandler(t *testing.T) {
 			rr.Body.String(), expected)
 	}
 }
+
+func TestConvertTime(t *testing.T) {
+	strDate := "2000-01-01"
+	res, err := converStringToTime(strDate)
+	if err != nil {
+		t.Error(err)
+	}
+	expected := 1
+	if res.Day() != 1 {
+		t.Errorf("Wrong convertation: got %v want %v", res.Day(), expected)
+	}
+}
+
+func TestCompareDate(t *testing.T) {
+	recievedDate, _ := converStringToTime("2000-01-10")
+
+	birthDate, _ := converStringToTime("2000-01-10")
+	in5DaysDate, _ := converStringToTime("2018-01-05")
+	anotherDate, _ := converStringToTime("2020-01-01")
+
+	exp1 := 0
+	if d1 := compareTime(recievedDate, birthDate); d1 != exp1 {
+		t.Errorf("Wrong date comparison: got %v, want %v", d1, exp1)
+	}
+
+	exp2 := 5
+	if d2 := compareTime(recievedDate, in5DaysDate); d2 != exp2 {
+		t.Errorf("Wrong date comparison: got %v, want %v", d2, exp2)
+	}
+
+	exp3 := -1
+	if d3 := compareTime(recievedDate, anotherDate); d3 != exp3 {
+		t.Errorf("Wrong date comparison: got %v, want %v", d3, exp3)
+	}
+}

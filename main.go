@@ -176,49 +176,54 @@ func (u User) helloGetHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	// Parse string to date
-	t, err := time.Parse("2006-01-02", u.DateOfBirth)
+	t, err := converStringToTime(u.DateOfBirth)
 	if err != nil {
 		log.Printf("Cannot convert date. Error: %v\n", err)
 	}
 
 	// Send json encoded message depends on birth date
 	var msg Message
-	if t.Month() == time.Now().Month() {
-		if (t.Day() - 5) == time.Now().Day() {
-			msg.Message = fmt.Sprintf("Hello, %v! Your birthday in 5 days", u.Name)
-			data, err := json.Marshal(msg)
-			if err != nil {
-				log.Printf("Cannot marshall json: %v\n", err)
-				http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
-				return
-			}
-			if _, err := w.Write(data); err != nil {
-				log.Printf("Cannot send responce. Error: %v", err)
-			}
-		} else if t.Day() == time.Now().Day() {
-			msg.Message = fmt.Sprintf("Hello, %v! Happy Birthday!", u.Name)
-			data, err := json.Marshal(msg)
-			if err != nil {
-				log.Printf("Cannot marshall json: %v\n", err)
-				http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
-				return
-			}
-			if _, err := w.Write(data); err != nil {
-				log.Printf("Cannot send responce. Error: %v", err)
-			}
-		} else {
-			msg.Message = fmt.Sprintf("Hello, %v!", u.Name)
-			data, err := json.Marshal(msg)
-			if err != nil {
-				log.Printf("Cannot marshall json: %v\n", err)
-				http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
-				return
-			}
-			if _, err := w.Write(data); err != nil {
-				log.Printf("Cannot send responce. Error: %v", err)
-			}
+	dob := compareTime(t, time.Now())
+
+	if dob == 5 {
+		msg.Message = fmt.Sprintf("Hello, %v! Your birthday in 5 days", u.Name)
+		data, err := json.Marshal(msg)
+		if err != nil {
+			log.Printf("Cannot marshall json: %v\n", err)
+			http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
+			return
 		}
+		if _, err := w.Write(data); err != nil {
+			log.Printf("Cannot send responce. Error: %v", err)
+		}
+		return
 	}
+
+	if dob == 0 {
+		msg.Message = fmt.Sprintf("Hello, %v! Happy Birthday!", u.Name)
+		data, err := json.Marshal(msg)
+		if err != nil {
+			log.Printf("Cannot marshall json: %v\n", err)
+			http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
+			return
+		}
+		if _, err := w.Write(data); err != nil {
+			log.Printf("Cannot send responce. Error: %v", err)
+		}
+		return
+	}
+
+	msg.Message = fmt.Sprintf("Hello, %v!", u.Name)
+	data, err := json.Marshal(msg)
+	if err != nil {
+		log.Printf("Cannot marshall json: %v\n", err)
+		http.Error(w, "Cannot marshall json", http.StatusInternalServerError)
+		return
+	}
+	if _, err := w.Write(data); err != nil {
+		log.Printf("Cannot send responce. Error: %v", err)
+	}
+	return
 }
 
 // GET "/health" handler
@@ -241,7 +246,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 		if _, err := w.Write(data); err != nil {
 			log.Printf("Cannot send responce. Error: %v", err)
 		}
-		log.Println("cannot ping a db")
+		log.Println("Cannot ping a db")
 		return
 	}
 
@@ -271,4 +276,26 @@ func getUser(name string) (User, error) {
 	var user User
 	result := db.Find(&user, &User{Name: name})
 	return user, result.Error
+}
+
+// Compare current date and birthday date
+func compareTime(x time.Time, y time.Time) int {
+	if (x.Day() - 5) == y.Day() {
+		// Birthday in 5 days
+		return 5
+	} else if x.Day() == y.Day() {
+		// Today is a birthday
+		return 0
+	} else {
+		// In all other cases
+		return -1
+	}
+}
+
+func converStringToTime(s string) (time.Time, error) {
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return t, nil
 }
