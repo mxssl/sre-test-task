@@ -2,6 +2,8 @@
 
 # Revolut SRE test task
 
+[GCP diagram](https://github.com/mxssl/revolut-sre-test-task/blob/master/gcp_diagram.pdf)
+
 ## Local setup with docker-compose
 
 Use this command:
