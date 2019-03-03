@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app
-  namespace: revolute-sre-test-task
+  namespace: sre-test-task
 spec:
   selector:
     app: app
