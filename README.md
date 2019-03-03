@@ -8,8 +8,8 @@
 
 ## Build&Deploy Scripts
 
-- Docker container build [build.sh](https://github.com/mxssl/sre-test-task/blob/master/build.sh)
-- Deploy to Kubernetes [deploy.sh](https://github.com/mxssl/sre-test-task/blob/master/deploy.sh)
+- Docker container build [build.sh](https://github.com/mxssl/test-task/blob/master/build.sh)
+- Deploy to Kubernetes [deploy.sh](https://github.com/mxssl/test-task/blob/master/deploy.sh)
 
 ## Local setup with docker-compose
 
