@@ -3,7 +3,7 @@
 set -e
 
 # Build container
-docker build -t mxssl/revolut-sre-test-task .
+docker build -t mxssl/sre-test-task .
 
 # Push container to the registry
-docker push mxssl/revolut-sre-test-task
+docker push mxssl/sre-test-task
