@@ -14,7 +14,7 @@ services:
       - db-data:/var/lib/postgresql/data
 
   app:
-    image: mxssl/revolut-sre-test-task
+    image: mxssl/sre-test-task
     restart: always
     environment:
       DB_HOST: db
