@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
-  namespace: revolute-sre-test-task
+  namespace: sre-test-task
   labels:
     app: db
 spec:
@@ -59,7 +59,7 @@ spec:
       volumes:
       - name: pg-data
         gcePersistentDisk:
-          pdName: revolut-sre-test-task-disk
+          pdName: sre-test-task-disk
           fsType: ext4
   selector:
     matchLabels:
