@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 
-WORKDIR /go/src/github.com/mxssl/revolut-sre-test-task
+WORKDIR /go/src/github.com/mxssl/sre-test-task
 COPY . .
 
 # install dep package manager
@@ -13,6 +13,6 @@ RUN CGO_ENABLED=0 GOOS=`go env GOHOSTOS` GOARCH=`go env GOHOSTARCH` go build -o 
 FROM alpine:latest
 WORKDIR /
 RUN apk add --no-cache ca-certificates
-COPY --from=builder /go/src/github.com/mxssl/revolut-sre-test-task .
+COPY --from=builder /go/src/github.com/mxssl/sre-test-task .
 RUN chmod +x app
 CMD ["./app"]
