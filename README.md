@@ -1,15 +1,15 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/mxssl/revolut-sre-test-task)](https://goreportcard.com/report/github.com/mxssl/revolut-sre-test-task)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mxssl/sre-test-task)](https://goreportcard.com/report/github.com/mxssl/sre-test-task)
 
-# Revolut SRE test task
+# SRE test task
 
 ## Diagram
 
-[GCP diagram](https://github.com/mxssl/revolut-sre-test-task/blob/master/gcp_diagram.pdf)
+[GCP diagram](https://github.com/mxssl/sre-test-task/blob/master/gcp_diagram.pdf)
 
 ## Build&Deploy Scripts
 
-- Docker container build [build.sh](https://github.com/mxssl/revolut-sre-test-task/blob/master/build.sh)
-- Deploy to Kubernetes [deploy.sh](https://github.com/mxssl/revolut-sre-test-task/blob/master/deploy.sh)
+- Docker container build [build.sh](https://github.com/mxssl/sre-test-task/blob/master/build.sh)
+- Deploy to Kubernetes [deploy.sh](https://github.com/mxssl/sre-test-task/blob/master/deploy.sh)
 
 ## Local setup with docker-compose
 
