@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app
-  namespace: revolute-sre-test-task
+  namespace: sre-test-task
   labels:
     app: app
 spec:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: mxssl/revolute-sre-test-task
+        image: mxssl/sre-test-task
         env:
           - name: DB_HOST
             value: db
